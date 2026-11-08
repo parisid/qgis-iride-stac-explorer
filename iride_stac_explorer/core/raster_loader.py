@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-import json
 from typing import List, Dict, Any, Optional
-from PyQt5.QtGui import QColor
-from PyQt5.QtCore import QVariant
+from .qt_compat import QColor, QVariant
 from qgis.core import (
     QgsRasterLayer, QgsVectorLayer, QgsProject, QgsMessageLog, Qgis,
     QgsField, QgsFeature, QgsGeometry, QgsPointXY, QgsRectangle,

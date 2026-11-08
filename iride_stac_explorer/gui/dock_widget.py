@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
-import os
-from PyQt5.QtWidgets import (
+from ..core.qt_compat import (
     QDockWidget, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, 
     QLabel, QComboBox, QDateEdit, QTableWidget, QTableWidgetItem, 
     QHeaderView, QMessageBox, QCheckBox, QAbstractItemView, QSpinBox,
-    QGroupBox, QFileDialog, QProgressBar
+    QGroupBox, QFileDialog, QProgressBar, Qt, QDate, QPixmap, QImage
 )
-from PyQt5.QtCore import Qt, QDate
-from PyQt5.QtGui import QPixmap, QImage
 from qgis.core import (
     QgsProject, QgsCoordinateTransform, QgsCoordinateReferenceSystem, 
     QgsApplication, QgsMessageLog, Qgis

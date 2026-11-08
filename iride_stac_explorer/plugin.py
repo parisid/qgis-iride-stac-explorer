@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from PyQt5.QtWidgets import QAction
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import Qt
+from .core.qt_compat import QAction, QIcon
 from qgis.gui import QgisInterface
 from .gui.dock_widget import IrideDockWidget
 from .core.i18n import tr

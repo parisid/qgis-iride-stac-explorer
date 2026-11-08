@@ -75,6 +75,31 @@ def _install_qgis_stubs_if_needed():
     qgis_mod = types.ModuleType("qgis")
     qgis_core = types.ModuleType("qgis.core")
     qgis_gui = types.ModuleType("qgis.gui")
+    qgis_pyqt = types.ModuleType("qgis.PyQt")
+    qgis_pyqt_core = types.ModuleType("qgis.PyQt.QtCore")
+    qgis_pyqt_gui = types.ModuleType("qgis.PyQt.QtGui")
+    qgis_pyqt_widgets = types.ModuleType("qgis.PyQt.QtWidgets")
+
+    qgis_pyqt_core.Qt = types.SimpleNamespace()
+    qgis_pyqt_core.QDate = types.SimpleNamespace()
+    qgis_pyqt_core.QVariant = types.SimpleNamespace()
+    qgis_pyqt_gui.QIcon = object
+    qgis_pyqt_gui.QPixmap = object
+    qgis_pyqt_gui.QImage = object
+    qgis_pyqt_gui.QColor = object
+    for w in [
+        "QAction", "QDockWidget", "QWidget", "QVBoxLayout", "QHBoxLayout",
+        "QPushButton", "QLabel", "QComboBox", "QDateEdit", "QTableWidget",
+        "QTableWidgetItem", "QHeaderView", "QMessageBox", "QCheckBox",
+        "QAbstractItemView", "QSpinBox", "QGroupBox", "QFileDialog",
+        "QProgressBar", "QDialog", "QTextEdit", "QTabWidget", "QRadioButton",
+        "QButtonGroup", "QFormLayout"
+    ]:
+        setattr(qgis_pyqt_widgets, w, object)
+
+    qgis_pyqt.QtCore = qgis_pyqt_core
+    qgis_pyqt.QtGui = qgis_pyqt_gui
+    qgis_pyqt.QtWidgets = qgis_pyqt_widgets
 
     qgis_core.QgsSettings = DummySettings
     qgis_core.QgsTask = DummyQgsTask
@@ -87,6 +112,10 @@ def _install_qgis_stubs_if_needed():
     sys.modules["qgis"] = qgis_mod
     sys.modules["qgis.core"] = qgis_core
     sys.modules["qgis.gui"] = qgis_gui
+    sys.modules["qgis.PyQt"] = qgis_pyqt
+    sys.modules["qgis.PyQt.QtCore"] = qgis_pyqt_core
+    sys.modules["qgis.PyQt.QtGui"] = qgis_pyqt_gui
+    sys.modules["qgis.PyQt.QtWidgets"] = qgis_pyqt_widgets
 
 
 _install_qgis_stubs_if_needed()

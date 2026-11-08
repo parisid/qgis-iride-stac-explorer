@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtWidgets import (
+from ..core.qt_compat import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
     QPushButton, QTextEdit, QGroupBox, QSpinBox,
     QTabWidget, QWidget, QRadioButton, QButtonGroup, QFormLayout
