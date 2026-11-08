@@ -89,7 +89,7 @@ def _install_qgis_stubs_if_needed():
     qgis_pyqt_gui.QColor = object
     for w in [
         "QAction", "QDockWidget", "QWidget", "QVBoxLayout", "QHBoxLayout",
-        "QPushButton", "QLabel", "QComboBox", "QDateEdit", "QTableWidget",
+        "QPushButton", "QLabel", "QLineEdit", "QComboBox", "QDateEdit", "QTableWidget",
         "QTableWidgetItem", "QHeaderView", "QMessageBox", "QCheckBox",
         "QAbstractItemView", "QSpinBox", "QGroupBox", "QFileDialog",
         "QProgressBar", "QDialog", "QTextEdit", "QTabWidget", "QRadioButton",

@@ -8,7 +8,7 @@ from qgis.PyQt.QtCore import Qt, QDate, QVariant
 from qgis.PyQt.QtGui import QIcon, QPixmap, QImage, QColor
 from qgis.PyQt.QtWidgets import (
     QAction, QDockWidget, QWidget, QVBoxLayout, QHBoxLayout,
-    QPushButton, QLabel, QComboBox, QDateEdit, QTableWidget,
+    QPushButton, QLabel, QLineEdit, QComboBox, QDateEdit, QTableWidget,
     QTableWidgetItem, QHeaderView, QMessageBox, QCheckBox,
     QAbstractItemView, QSpinBox, QGroupBox, QFileDialog,
     QProgressBar, QDialog, QTextEdit, QTabWidget, QRadioButton,
