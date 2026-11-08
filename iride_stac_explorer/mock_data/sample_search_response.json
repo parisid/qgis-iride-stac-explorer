@@ -1,0 +1,118 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "IRIDE_OPT_L2A_20261105T101530_CAM_001",
+      "collection": "IRIDE-OPT-L2A",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [14.450, 40.720],
+            [14.520, 40.720],
+            [14.520, 40.770],
+            [14.450, 40.770],
+            [14.450, 40.720]
+          ]
+        ]
+      },
+      "bbox": [14.450, 40.720, 14.520, 40.770],
+      "properties": {
+        "datetime": "2026-11-05T10:15:30Z",
+        "platform": "IRIDE-Constellation",
+        "instruments": ["VNIR-HR"],
+        "eo:cloud_cover": 3.2,
+        "processing:level": "L2A"
+      },
+      "assets": {
+        "visual": {
+          "title": "True Color TCI (Cloud Optimized GeoTIFF)",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": ["visual"],
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/33/T/VF/2023/5/S2B_33TVF_20230528_0_L2A/TCI.tif"
+        },
+        "thumbnail": {
+          "title": "Preview Thumbnail",
+          "type": "image/jpeg",
+          "roles": ["thumbnail"],
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/33/T/VF/2023/5/S2B_33TVF_20230528_0_L2A/thumbnail.jpg"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "IRIDE_OPT_L2A_20261028T101500_CAM_002",
+      "collection": "IRIDE-OPT-L2A",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [14.480, 40.740],
+            [14.560, 40.740],
+            [14.560, 40.800],
+            [14.480, 40.800],
+            [14.480, 40.740]
+          ]
+        ]
+      },
+      "bbox": [14.480, 40.740, 14.560, 40.800],
+      "properties": {
+        "datetime": "2026-10-28T10:15:00Z",
+        "platform": "IRIDE-Constellation",
+        "instruments": ["VNIR-HR"],
+        "eo:cloud_cover": 35.8,
+        "processing:level": "L2A"
+      },
+      "assets": {
+        "visual": {
+          "title": "True Color TCI (Cloud Optimized GeoTIFF)",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": ["visual"],
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/33/T/VF/2023/5/S2B_33TVF_20230528_0_L2A/TCI.tif"
+        },
+        "thumbnail": {
+          "title": "Preview Thumbnail",
+          "type": "image/jpeg",
+          "roles": ["thumbnail"],
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/33/T/VF/2023/5/S2B_33TVF_20230528_0_L2A/thumbnail.jpg"
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "stac_version": "1.0.0",
+      "id": "IRIDE_SAR_L1C_20261102T053012_SAR_001",
+      "collection": "IRIDE-SAR-L1C",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [14.400, 40.700],
+            [14.500, 40.700],
+            [14.500, 40.780],
+            [14.400, 40.780],
+            [14.400, 40.700]
+          ]
+        ]
+      },
+      "bbox": [14.400, 40.700, 14.500, 40.780],
+      "properties": {
+        "datetime": "2026-11-02T05:30:12Z",
+        "platform": "IRIDE-SAR",
+        "instruments": ["SAR-X"],
+        "processing:level": "L1C"
+      },
+      "assets": {
+        "vv": {
+          "title": "SAR Backscatter VV (Cloud Optimized GeoTIFF)",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "roles": ["data"],
+          "href": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/33/T/VF/2023/5/S2B_33TVF_20230528_0_L2A/B08.tif"
+        }
+      }
+    }
+  ]
+}

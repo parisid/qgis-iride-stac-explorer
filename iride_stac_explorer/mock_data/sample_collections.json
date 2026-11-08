@@ -1,0 +1,14 @@
+{
+  "collections": [
+    {
+      "id": "IRIDE-OPT-L2A",
+      "title": "Ottico Multispettrale L2A (Mock)",
+      "description": "Dati simulati per test locale ottico IRIDE"
+    },
+    {
+      "id": "IRIDE-SAR-L1C",
+      "title": "SAR SLC/GRD L1C (Mock)",
+      "description": "Dati simulati per test locale SAR IRIDE"
+    }
+  ]
+}
