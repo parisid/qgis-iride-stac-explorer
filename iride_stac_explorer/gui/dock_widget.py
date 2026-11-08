@@ -131,12 +131,9 @@ class IrideDockWidget(QDockWidget):
         self.table.setHorizontalHeaderLabels([
             tr("COL_ID"), tr("COL_DATETIME"), tr("COL_CLOUD"), tr("COL_LEVEL")
         ])
-        resize_stretch = getattr(QHeaderView.ResizeMode, "Stretch", getattr(QHeaderView, "Stretch", 1))
-        self.table.horizontalHeader().setSectionResizeMode(0, resize_stretch)
-        sel_rows = getattr(QAbstractItemView.SelectionBehavior, "SelectRows", getattr(QAbstractItemView, "SelectRows", 1))
-        self.table.setSelectionBehavior(sel_rows)
-        sel_single = getattr(QAbstractItemView.SelectionMode, "SingleSelection", getattr(QAbstractItemView, "SingleSelection", 1))
-        self.table.setSelectionMode(sel_single)
+        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        self.table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.table.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
         self.table.selectionModel().selectionChanged.connect(self.on_item_selected)
         layout.addWidget(self.table)
 
@@ -150,8 +147,7 @@ class IrideDockWidget(QDockWidget):
         grp_preview = QGroupBox(tr("GRP_PREVIEW"))
         preview_layout = QVBoxLayout(grp_preview)
         self.lbl_thumbnail = QLabel(tr("PREVIEW_SELECT_ITEM"))
-        align_center = getattr(Qt.AlignmentFlag, "AlignCenter", getattr(Qt, "AlignCenter", 0x0084))
-        self.lbl_thumbnail.setAlignment(align_center)
+        self.lbl_thumbnail.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.lbl_thumbnail.setMinimumHeight(125)
         self.lbl_thumbnail.setStyleSheet("background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;")
         preview_layout.addWidget(self.lbl_thumbnail)
@@ -207,8 +203,7 @@ class IrideDockWidget(QDockWidget):
 
     def open_settings(self):
         dialog = SettingsDialog(self)
-        exec_func = getattr(dialog, "exec", getattr(dialog, "exec_", None))
-        if exec_func and exec_func():
+        if dialog.exec():
             self.update_endpoint_badge()
             self.refresh_collections()
 
@@ -272,10 +267,9 @@ class IrideDockWidget(QDockWidget):
         self.lbl_thumbnail.setPixmap(QPixmap())
         self.lbl_thumbnail.setText(tr("PREVIEW_SELECT_ITEM"))
 
-        date_iso = getattr(Qt.DateFormat, "ISODate", getattr(Qt, "ISODate", 1))
         bbox = self.get_current_bbox_wgs84() if self.chk_use_canvas_extent.isChecked() else None
-        d_from = self.date_from.date().toString(date_iso) + "T00:00:00Z"
-        d_to = self.date_to.date().toString(date_iso) + "T23:59:59Z"
+        d_from = self.date_from.date().toString(Qt.DateFormat.ISODate) + "T00:00:00Z"
+        d_to = self.date_to.date().toString(Qt.DateFormat.ISODate) + "T23:59:59Z"
         time_range = f"{d_from}/{d_to}"
 
         selected_coll = self.cmb_collection.currentData()
@@ -522,13 +516,11 @@ class IrideDockWidget(QDockWidget):
             if img.isNull():
                 self.lbl_thumbnail.setText("<i>Formato immagine anteprima non supportato</i>")
                 return
-            aspect_ratio = getattr(Qt.AspectRatioMode, "KeepAspectRatio", getattr(Qt, "KeepAspectRatio", 1))
-            smooth_trans = getattr(Qt.TransformationMode, "SmoothTransformation", getattr(Qt, "SmoothTransformation", 1))
             pixmap = QPixmap.fromImage(img).scaled(
                 max(220, self.lbl_thumbnail.width() - 12),
                 135,
-                aspect_ratio,
-                smooth_trans
+                Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation
             )
             self.lbl_thumbnail.setPixmap(pixmap)
 
@@ -619,8 +611,8 @@ class IrideDockWidget(QDockWidget):
                 QMessageBox.critical(self, "Errore Download", f"Download non completato:\n{str(exception)}")
                 return
 
-            btn_yes = getattr(QMessageBox.StandardButton, "Yes", getattr(QMessageBox, "Yes", 0x00004000))
-            btn_no = getattr(QMessageBox.StandardButton, "No", getattr(QMessageBox, "No", 0x00010000))
+            btn_yes = QMessageBox.StandardButton.Yes
+            btn_no = QMessageBox.StandardButton.No
             reply = QMessageBox.question(
                 self,
                 "Download Completato",
