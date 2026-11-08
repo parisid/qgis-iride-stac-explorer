@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from .core.qt_compat import QAction, QIcon
+from .core.qt_compat import QAction, QIcon, Qt
 from qgis.gui import QgisInterface
 from .gui.dock_widget import IrideDockWidget
 from .core.i18n import tr
