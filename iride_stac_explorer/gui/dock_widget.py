@@ -131,9 +131,12 @@ class IrideDockWidget(QDockWidget):
         self.table.setHorizontalHeaderLabels([
             tr("COL_ID"), tr("COL_DATETIME"), tr("COL_CLOUD"), tr("COL_LEVEL")
         ])
-        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
-        self.table.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.table.setSelectionMode(QAbstractItemView.SingleSelection)
+        resize_stretch = getattr(QHeaderView.ResizeMode, "Stretch", getattr(QHeaderView, "Stretch", 1))
+        self.table.horizontalHeader().setSectionResizeMode(0, resize_stretch)
+        sel_rows = getattr(QAbstractItemView.SelectionBehavior, "SelectRows", getattr(QAbstractItemView, "SelectRows", 1))
+        self.table.setSelectionBehavior(sel_rows)
+        sel_single = getattr(QAbstractItemView.SelectionMode, "SingleSelection", getattr(QAbstractItemView, "SingleSelection", 1))
+        self.table.setSelectionMode(sel_single)
         self.table.selectionModel().selectionChanged.connect(self.on_item_selected)
         layout.addWidget(self.table)
 
@@ -147,7 +150,8 @@ class IrideDockWidget(QDockWidget):
         grp_preview = QGroupBox(tr("GRP_PREVIEW"))
         preview_layout = QVBoxLayout(grp_preview)
         self.lbl_thumbnail = QLabel(tr("PREVIEW_SELECT_ITEM"))
-        self.lbl_thumbnail.setAlignment(Qt.AlignCenter)
+        align_center = getattr(Qt.AlignmentFlag, "AlignCenter", getattr(Qt, "AlignCenter", 0x0084))
+        self.lbl_thumbnail.setAlignment(align_center)
         self.lbl_thumbnail.setMinimumHeight(125)
         self.lbl_thumbnail.setStyleSheet("background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;")
         preview_layout.addWidget(self.lbl_thumbnail)
@@ -203,7 +207,8 @@ class IrideDockWidget(QDockWidget):
 
     def open_settings(self):
         dialog = SettingsDialog(self)
-        if dialog.exec_():
+        exec_func = getattr(dialog, "exec", getattr(dialog, "exec_", None))
+        if exec_func and exec_func():
             self.update_endpoint_badge()
             self.refresh_collections()
 
@@ -245,10 +250,11 @@ class IrideDockWidget(QDockWidget):
         width_deg = abs(wgs_extent.xMaximum() - wgs_extent.xMinimum())
         height_deg = abs(wgs_extent.yMaximum() - wgs_extent.yMinimum())
         if width_deg > 60.0 or height_deg > 60.0:
+            warn_level = getattr(Qgis.MessageLevel, "Warning", getattr(Qgis, "Warning", 1))
             QgsMessageLog.logMessage(
                 f"Estensione canvas molto ampia ({width_deg:.1f}° x {height_deg:.1f}°). La ricerca potrebbe restituire molti risultati.",
                 "IRIDE Explorer",
-                Qgis.Warning
+                warn_level
             )
 
         return [round(wgs_extent.xMinimum(), 6), round(wgs_extent.yMinimum(), 6),
@@ -266,9 +272,10 @@ class IrideDockWidget(QDockWidget):
         self.lbl_thumbnail.setPixmap(QPixmap())
         self.lbl_thumbnail.setText(tr("PREVIEW_SELECT_ITEM"))
 
+        date_iso = getattr(Qt.DateFormat, "ISODate", getattr(Qt, "ISODate", 1))
         bbox = self.get_current_bbox_wgs84() if self.chk_use_canvas_extent.isChecked() else None
-        d_from = self.date_from.date().toString(Qt.ISODate) + "T00:00:00Z"
-        d_to = self.date_to.date().toString(Qt.ISODate) + "T23:59:59Z"
+        d_from = self.date_from.date().toString(date_iso) + "T00:00:00Z"
+        d_to = self.date_to.date().toString(date_iso) + "T23:59:59Z"
         time_range = f"{d_from}/{d_to}"
 
         selected_coll = self.cmb_collection.currentData()
@@ -515,11 +522,13 @@ class IrideDockWidget(QDockWidget):
             if img.isNull():
                 self.lbl_thumbnail.setText("<i>Formato immagine anteprima non supportato</i>")
                 return
+            aspect_ratio = getattr(Qt.AspectRatioMode, "KeepAspectRatio", getattr(Qt, "KeepAspectRatio", 1))
+            smooth_trans = getattr(Qt.TransformationMode, "SmoothTransformation", getattr(Qt, "SmoothTransformation", 1))
             pixmap = QPixmap.fromImage(img).scaled(
                 max(220, self.lbl_thumbnail.width() - 12),
                 135,
-                Qt.KeepAspectRatio,
-                Qt.SmoothTransformation
+                aspect_ratio,
+                smooth_trans
             )
             self.lbl_thumbnail.setPixmap(pixmap)
 
@@ -610,14 +619,16 @@ class IrideDockWidget(QDockWidget):
                 QMessageBox.critical(self, "Errore Download", f"Download non completato:\n{str(exception)}")
                 return
 
+            btn_yes = getattr(QMessageBox.StandardButton, "Yes", getattr(QMessageBox, "Yes", 0x00004000))
+            btn_no = getattr(QMessageBox.StandardButton, "No", getattr(QMessageBox, "No", 0x00010000))
             reply = QMessageBox.question(
                 self,
                 "Download Completato",
                 f"Asset salvato con successo in:\n{saved_path}\n\nVuoi aggiungerlo alla mappa del progetto corrente?",
-                QMessageBox.Yes | QMessageBox.No,
-                QMessageBox.Yes
+                btn_yes | btn_no,
+                btn_yes
             )
-            if reply == QMessageBox.Yes:
+            if reply == btn_yes:
                 RasterLoader.load_local_raster(saved_path, layer_title)
 
         task = DownloadAssetTask(f"Download {layer_title}", download_runner, on_download_done)

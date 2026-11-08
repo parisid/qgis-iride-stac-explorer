@@ -38,7 +38,8 @@ class IrideStacExplorerPlugin:
         """Apre o porta in primo piano il Dock Widget."""
         if not self.dock_widget:
             self.dock_widget = IrideDockWidget(self.iface, self.iface.mainWindow())
-            self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dock_widget)
+            dock_area = getattr(Qt.DockWidgetArea, "RightDockWidgetArea", Qt.RightDockWidgetArea)
+            self.iface.addDockWidget(dock_area, self.dock_widget)
         
         self.dock_widget.show()
         self.dock_widget.raise_()

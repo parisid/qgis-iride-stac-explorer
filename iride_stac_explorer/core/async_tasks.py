@@ -6,7 +6,8 @@ class AsyncWorkerTask(QgsTask):
     """Task generico in background per operazioni di rete asincrone (STAC search, collections, signer, thumbnail)."""
 
     def __init__(self, description: str, worker_func: Callable[[], Any], on_finished: Callable[[Any, Exception], None]):
-        super().__init__(description, QgsTask.CanCancel)
+        can_cancel_flag = getattr(getattr(QgsTask, "Flag", None), "CanCancel", getattr(QgsTask, "CanCancel", 1))
+        super().__init__(description, can_cancel_flag)
         self.worker_func = worker_func
         self.on_finished = on_finished
         self.result = None
@@ -31,7 +32,8 @@ class DownloadAssetTask(QgsTask):
     """Task in background dedicato al download di file binari con tracciamento della percentuale."""
 
     def __init__(self, description: str, download_func: Callable[[Callable[[float], bool]], Any], on_finished: Callable[[Any, Exception], None]):
-        super().__init__(description, QgsTask.CanCancel)
+        can_cancel_flag = getattr(getattr(QgsTask, "Flag", None), "CanCancel", getattr(QgsTask, "CanCancel", 1))
+        super().__init__(description, can_cancel_flag)
         self.download_func = download_func
         self.on_finished = on_finished
         self.result = None

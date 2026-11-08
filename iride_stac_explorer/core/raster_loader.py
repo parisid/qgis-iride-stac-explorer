@@ -50,10 +50,11 @@ class RasterLoader:
                     return True
 
             err_detail = layer.error().message() if layer.error() else "Nessun dettaglio errore GDAL disponibile"
+            crit_level = getattr(Qgis.MessageLevel, "Critical", getattr(Qgis, "Critical", 2))
             QgsMessageLog.logMessage(
                 f"Impossibile caricare il raster remoto: {vsi_path}. Errore GDAL: {err_detail}", 
                 "IRIDE Explorer", 
-                Qgis.Critical
+                crit_level
             )
             return False
 
@@ -65,10 +66,11 @@ class RasterLoader:
     def load_local_raster(filepath: str, layer_name: str) -> bool:
         layer = QgsRasterLayer(filepath, layer_name, "gdal")
         if not layer.isValid():
+            crit_level = getattr(Qgis.MessageLevel, "Critical", getattr(Qgis, "Critical", 2))
             QgsMessageLog.logMessage(
                 f"Impossibile caricare il raster locale: {filepath}. Errore GDAL: {layer.error().message()}", 
                 "IRIDE Explorer", 
-                Qgis.Critical
+                crit_level
             )
             return False
 
@@ -96,7 +98,8 @@ class RasterLoader:
                 layer.setDefaultContrastEnhancement()
             layer.triggerRepaint()
         except Exception as e:
-            QgsMessageLog.logMessage(f"Ottimizzazione simbologia non applicata: {str(e)}", "IRIDE Explorer", Qgis.Info)
+            info_level = getattr(Qgis.MessageLevel, "Info", getattr(Qgis, "Info", 0))
+            QgsMessageLog.logMessage(f"Ottimizzazione simbologia non applicata: {str(e)}", "IRIDE Explorer", info_level)
 
 
 class FootprintManager:

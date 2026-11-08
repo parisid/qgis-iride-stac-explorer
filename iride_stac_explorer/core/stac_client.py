@@ -65,10 +65,12 @@ class StacClient:
                     raise RuntimeError(f"HTTP Error {response.status}: {response.reason}")
         except urllib.error.HTTPError as e:
             err_msg = f"Errore server STAC [{e.code}]: {e.read().decode('utf-8', errors='ignore')}"
-            QgsMessageLog.logMessage(err_msg, self.log_tag, Qgis.Critical)
+            crit_level = getattr(Qgis.MessageLevel, "Critical", getattr(Qgis, "Critical", 2))
+            QgsMessageLog.logMessage(err_msg, self.log_tag, crit_level)
             raise RuntimeError(err_msg)
         except Exception as e:
-            QgsMessageLog.logMessage(f"Eccezione di rete: {str(e)}", self.log_tag, Qgis.Critical)
+            crit_level = getattr(Qgis.MessageLevel, "Critical", getattr(Qgis, "Critical", 2))
+            QgsMessageLog.logMessage(f"Eccezione di rete: {str(e)}", self.log_tag, crit_level)
             raise
 
     @staticmethod
