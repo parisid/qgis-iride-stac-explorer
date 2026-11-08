@@ -97,8 +97,8 @@ class RasterLoader:
                 # Monobanda (es. SAR backscatter o indice spettrale)
                 layer.setDefaultContrastEnhancement()
             layer.triggerRepaint()
-        except Exception:
-            pass
+        except Exception as e:
+            QgsMessageLog.logMessage(f"Ottimizzazione simbologia non applicata: {str(e)}", "IRIDE Explorer", Qgis.Info)
 
 
 class FootprintManager:

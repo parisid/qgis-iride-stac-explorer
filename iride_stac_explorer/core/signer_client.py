@@ -20,6 +20,9 @@ class SignerClient:
         if api_key:
             req.add_header("x-api-key", api_key)
 
-        with urllib.request.urlopen(req, timeout=ConfigManager.get_timeout()) as response:
+        if not endpoint.startswith(("http://", "https://")):
+            raise ValueError(f"URL non consentito per il servizio di firma: {endpoint}")
+
+        with urllib.request.urlopen(req, timeout=ConfigManager.get_timeout()) as response:  # nosec B310
             res_data = json.loads(response.read().decode("utf-8"))
             return res_data.get("signed_url", asset_href)

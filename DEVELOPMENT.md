@@ -62,3 +62,4 @@ flowchart LR
   - Gestione di GeoTIFF COG, JPEG2000 `.jp2` e normalizzazione di `s3://` in HTTPS pubblico per `/vsicurl/`.
 - **Preselezione Automatica Intelligente Asset (`2026-11-08`)**:
   - Sistema a punteggio gerarchico per preselezionare sempre il raster visualizzabile ed escludere i metadati XML/JSON.
+

@@ -43,6 +43,9 @@ class StacClient:
                 }
             json_data = json.dumps(payload).encode("utf-8")
 
+        if not endpoint.startswith(("http://", "https://")):
+            raise ValueError(f"Schema URL non supportato: {endpoint}")
+
         req = urllib.request.Request(endpoint, data=json_data, method=method)
         req.add_header("Content-Type", "application/json")
         req.add_header("Accept", "application/geo+json")
@@ -53,7 +56,7 @@ class StacClient:
 
         timeout = ConfigManager.get_timeout()
         try:
-            with urllib.request.urlopen(req, timeout=timeout) as response:
+            with urllib.request.urlopen(req, timeout=timeout) as response:  # nosec B310
                 if response.status == 200:
                     raw_content = response.read().decode("utf-8")
                     data = json.loads(raw_content)
@@ -87,13 +90,16 @@ class StacClient:
                                progress_callback: Optional[Callable[[float], bool]] = None,
                                chunk_size: int = 65536) -> str:
         """Scarica un asset binario su disco a blocchi notificando il progresso. Ritorna il percorso del file salvato."""
+        if not url.startswith(("http://", "https://")):
+            raise ValueError(f"Schema URL non supportato per il download: {url}")
+
         req = urllib.request.Request(url, method="GET")
         api_key = ConfigManager.get_api_key()
         if api_key and ("iride.earth" in url or url.startswith("iride://")):
             req.add_header("x-api-key", api_key)
 
         timeout = ConfigManager.get_timeout()
-        with urllib.request.urlopen(req, timeout=timeout) as response:
+        with urllib.request.urlopen(req, timeout=timeout) as response:  # nosec B310
             total_size = response.headers.get("Content-Length")
             total_bytes = int(total_size) if total_size and total_size.isdigit() else 0
 
@@ -144,22 +150,28 @@ class StacClient:
             key = parts[1] if len(parts) > 1 else ""
             fetch_url = f"https://{bucket}.s3.amazonaws.com/{key}"
 
+        if not fetch_url.startswith(("http://", "https://")):
+            raise ValueError(f"Schema URL non supportato per la risorsa binaria: {fetch_url}")
+
         req = urllib.request.Request(fetch_url, method="GET")
         api_key = ConfigManager.get_api_key()
         if api_key and ("iride.earth" in fetch_url or fetch_url.startswith("iride://")):
             req.add_header("x-api-key", api_key)
-        with urllib.request.urlopen(req, timeout=ConfigManager.get_timeout()) as response:
+        with urllib.request.urlopen(req, timeout=ConfigManager.get_timeout()) as response:  # nosec B310
             return response.read()
 
     def get_collections(self) -> List[Dict[str, Any]]:
         endpoint = f"{ConfigManager.get_discover_url()}/collections"
+        if not endpoint.startswith(("http://", "https://")):
+            raise ValueError(f"Schema URL non supportato per collections: {endpoint}")
+
         req = urllib.request.Request(endpoint, method="GET")
         req.add_header("Accept", "application/json")
         api_key = ConfigManager.get_api_key()
         if api_key:
             req.add_header("x-api-key", api_key)
 
-        with urllib.request.urlopen(req, timeout=ConfigManager.get_timeout()) as response:
+        with urllib.request.urlopen(req, timeout=ConfigManager.get_timeout()) as response:  # nosec B310
             data = json.loads(response.read().decode("utf-8"))
             return data.get("collections", [])
 

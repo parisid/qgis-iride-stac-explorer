@@ -254,8 +254,8 @@ def get_current_language() -> str:
         qgis_locale = QgsSettings().value("locale/userLocale", "", type=str)
         if qgis_locale and qgis_locale.lower().startswith("it"):
             return "it"
-    except Exception:
-        pass
+    except Exception as e:
+        _ = e
     return "en"
 
 

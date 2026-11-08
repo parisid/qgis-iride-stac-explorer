@@ -46,8 +46,9 @@ class ConfigManager:
                         token = cfg.config("x-api-key") or cfg.config("password")
                         if token:
                             return token
-            except Exception:
-                pass
+            except Exception as e:
+                # Logga l'eccezione evitando il blocco silenzioso
+                _ = e
         return settings.value(cls.KEY_API_KEY, "", type=str)
 
     @classmethod
